@@ -10,10 +10,13 @@ import RobotSettings from "./components/RobotSettings.tsx";
 import CommandEditor from "./components/CommandEditor.tsx";
 import ArenaCanvas from "./components/ArenaCanvas.tsx";
 import ControlPanel from "./components/ControlPanel.tsx";
+import type { ArenaType } from "./engine/Arena.ts";
 
 import Parser from "./engine/Parser.ts";
 
 export default function App(){
+    const [arenaType, setArenaType] =
+    useState<ArenaType>("DECODE");
 
     const [code, setCode] = useState(`// ====================================
 // CodeHub - FTC 2D Autonomous Simulator
@@ -80,7 +83,11 @@ function save() {
 
         <div className="window">
 
-            <TopBar />
+            <TopBar
+                openStrategies={() => setShowStrategies(true)}
+                arenaType={arenaType}
+                setArenaType={setArenaType}
+            />
 
             <div className="content">
 
@@ -101,7 +108,10 @@ function save() {
                 </aside>
 
                 <main className="center-panel">
-                    <ArenaCanvas simulation={simulationRef.current} />  
+                    <ArenaCanvas
+                        simulation={simulationRef.current}
+                        arenaType={arenaType}
+                    /> 
                 </main>
 
                 <aside className="right-panel">

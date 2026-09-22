@@ -1,87 +1,111 @@
-import { useEffect, useRef} from "react";
+import { useEffect, useRef } from "react";
 
-import Arena from "../engine/Arena.ts";
+import Arena, {
+    type ArenaType
+} from "../engine/Arena.ts";
+
 import Renderer from "../engine/Renderer.ts";
 import Simulation from "../engine/Simulation.ts";
 
 type Props = {
     simulation: Simulation;
+    arenaType: ArenaType;
 };
 
-export default function ArenaCanvas({ simulation }: Props) {
+export default function ArenaCanvas({
+    simulation,
+    arenaType
+}: Props) {
 
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const canvasRef =
+        useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
 
-        const canvas = canvasRef.current;
+        const canvasElement =
+            canvasRef.current;
 
-        if (!canvas) return;
+        if (canvasElement === null)
+            return;
 
-        canvas.width = 900;
-        canvas.height = 900;
+        canvasElement.width = 900;
+        canvasElement.height = 900;
 
-        const ctx = canvas.getContext("2d");
+        const context =
+            canvasElement.getContext("2d");
 
-        if (!ctx) return;
+        if (context === null)
+            return;
 
-        const safeCanvas = canvas;
-        const safeCtx = ctx;
+        const canvas: HTMLCanvasElement =
+            canvasElement;
 
-        const arena = new Arena();
+        const ctx: CanvasRenderingContext2D =
+            context;
 
-        const renderer = new Renderer();
+        const arena =
+            new Arena(arenaType);
+
+        const renderer =
+            new Renderer();
+
+        let animationFrame: number;
 
         function draw() {
-            
-            console.log(simulation.robot.x);
 
-            safeCtx.clearRect(
+            ctx.clearRect(
                 0,
                 0,
-                safeCanvas.width,
-                safeCanvas.height
+                canvas.width,
+                canvas.height
             );
 
+            // 1. Campo
             arena.draw(
-                safeCtx,
-                safeCanvas.width,
-                safeCanvas.height
+                ctx,
+                canvas.width,
+                canvas.height
             );
 
+            // 2. Robô
             renderer.drawRobot(
-                safeCtx,
+                ctx,
                 simulation.robot,
-                safeCanvas.width
-
+                canvas.width
             );
 
-            requestAnimationFrame(draw);
+            // 3. Estruturas elevadas da Hive
+            arena.drawForeground(
+                ctx,
+                canvas.width,
+                canvas.height
+            );
 
+            animationFrame =
+                requestAnimationFrame(draw);
         }
 
         draw();
 
-    }, []);
+        return () => {
+            cancelAnimationFrame(
+                animationFrame
+            );
+        };
+
+    }, [
+        simulation,
+        arenaType
+    ]);
 
     return (
-
         <canvas
-
             ref={canvasRef}
-
             style={{
-
                 width: 900,
-
                 height: 900,
-
                 background: "white"
-
             }}
-
         />
-
     );
-
 }

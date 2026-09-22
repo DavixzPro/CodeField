@@ -1,24 +1,83 @@
-export default function TopBar() {
+import type { ArenaType } from "../engine/Arena.ts";
+
+interface Props {
+
+    openStrategies: () => void;
+
+    arenaType: ArenaType;
+
+    setArenaType: (
+        type: ArenaType
+    ) => void;
+
+}
+
+export default function TopBar({
+    arenaType,
+    setArenaType
+}: Props) {
 
     return (
 
         <header className="topbar">
 
-            <div>
+            {/* ================================================= */}
+            {/* EQUIPE */}
+            {/* ================================================= */}
 
-                <h1>🤖 CodeHub</h1>
+            <div className="team-number">
+                #17893
+            </div>
 
-                <small>FTC Autonomous Simulator</small>
+
+            {/* ================================================= */}
+            {/* LOGO + NOME */}
+            {/* ================================================= */}
+
+            <div className="topbar-brand">
+
+                <img
+                    src="LogoCodeTech.png"
+                    alt="CodeTECH"
+                    className="team-logo"
+
+                />
+
+                <span className="codefield-title">
+                    CodeField
+                </span>
 
             </div>
 
-            <div className="top-right">
 
-                <span>CodeTECH</span>
+            {/* ================================================= */}
+            {/* SEASON */}
+            {/* ================================================= */}
 
-                <span className="version">
-                    #17893
+            <div className="season-selector">
+
+                <span>
+                    Season
                 </span>
+
+                <select
+                    value={arenaType}
+                    onChange={(event) =>
+                        setArenaType(
+                            event.target.value as ArenaType
+                        )
+                    }
+                >
+
+                    <option value="DECODE">
+                        DECODE
+                    </option>
+
+                    <option value="BIOBUZZ">
+                        BIOBUZZ
+                    </option>
+
+                </select>
 
             </div>
 
