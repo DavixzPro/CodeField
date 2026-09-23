@@ -37,7 +37,7 @@ export default function TopBar({
             <div className="topbar-brand">
 
                 <img
-                    src="LogoCodeTech.png"
+                    src="LogoCodeTech.PNG"
                     alt="CodeTECH"
                     className="team-logo"
 
