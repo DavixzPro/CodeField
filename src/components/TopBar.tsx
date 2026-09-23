@@ -1,4 +1,5 @@
 import type { ArenaType } from "../engine/Arena.ts";
+import logoCodeTech from "../assets/LogoCodeTech.png";
 
 interface Props {
 
@@ -21,26 +22,16 @@ export default function TopBar({
 
         <header className="topbar">
 
-            {/* ================================================= */}
-            {/* EQUIPE */}
-            {/* ================================================= */}
-
             <div className="team-number">
                 #17893
             </div>
 
-
-            {/* ================================================= */}
-            {/* LOGO + NOME */}
-            {/* ================================================= */}
-
             <div className="topbar-brand">
 
                 <img
-                    src="LogoCodeTech.PNG"
+                    src={logoCodeTech}
                     alt="CodeTECH"
                     className="team-logo"
-
                 />
 
                 <span className="codefield-title">
@@ -48,11 +39,6 @@ export default function TopBar({
                 </span>
 
             </div>
-
-
-            {/* ================================================= */}
-            {/* SEASON */}
-            {/* ================================================= */}
 
             <div className="season-selector">
 
